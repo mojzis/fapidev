@@ -1,0 +1,91 @@
+<?php
+/**
+ * @todo : config add list of forms that shouldnt be treated (ie views settings)
+ * @todo : add another submit after the original, show changes in form, form_state
+ */
+
+/**
+ * Implements hook_menu().
+ */
+function fapidev_menu() {
+  $items['fapidevtest'] = array(
+    'title' => 'Test form',
+    'page callback' => 'fapidev_testform',
+    'access arguments' => array('access fapidev'),
+    'type' => MENU_NORMAL_ITEM,
+  );
+  $items['admin/config/development/fapidev'] = array(
+    'title' => 'FAPIdev config',
+    'page callback' => 'drupal_get_form',
+    'access arguments' => array('access fapidev'),
+    'arguments' => array('fapidev_config_form'),
+    'type' => MENU_NORMAL_ITEM,
+  );
+  return $items;
+}
+
+/**
+ * Implements hook_permission().
+ */
+function fapidev_permission() {
+  return array(
+    'access fapidev' => array(
+      'title' => t('Access fapidev'),
+      'description' => t('Access fapidev'),
+    ),
+  );
+}
+
+function fapidev_form_alter(&$form, &$form_state) {
+  if (variable_get('fapidev_dpm', true)) {
+    array_unshift($form['#submit'], 'fapidev_universal_submit');
+    //dpm($form, 'form');
+    //dpm($form_state, 'form_state');
+
+    // += array();
+  }
+}
+
+/**
+ * function fapidev_testform
+ */
+function fapidev_testform() {
+  $f = drupal_get_form('fapidev_tform');
+  return $f;
+}
+
+/**
+ * Implements hook_form().
+ */
+function fapidev_tform($form, &$form_state) {
+  $form['texta'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Text a'),
+    '#default_value' => 'a',
+    '#required' => TRUE,
+  );
+  $form['actions']['aubmit'] = array(
+    '#type' => 'submit',
+    );
+  return $form;
+}
+
+/**
+ * function fapidev_tform_submit
+ */
+function fapidev_tform_submit(&$form, &$form_state) {
+  dpm($form_state['values'],'orig submit vals');
+}
+
+/**
+ * function fapidev_universal_submit
+ */
+function fapidev_universal_submit(&$form, &$form_state) {
+  if (variable_get('fapidev_dpm', true)) {
+    dpm($form, 'sform');
+    dpm($form_state, 'form_state');
+  }
+}
+
+// add a settings menu & form
+// add a universal submit handler

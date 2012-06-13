@@ -1,0 +1,5 @@
+name = Fapi helper
+description = show form information
+core = 7.x
+dependenciesp[] = devel
+configure = admin/config/development/fapidev
