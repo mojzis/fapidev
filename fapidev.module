@@ -1,7 +1,9 @@
 <?php
 /**
  * @todo : config add list of forms that shouldnt be treated (ie views settings)
+ *   allow for this to be done directly from the form (add a checkbox ?)
  * @todo : add another submit after the original, show changes in form, form_state
+ * @todo : provide a drush command :)
  */
 
 /**
