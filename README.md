@@ -7,6 +7,6 @@
 * its trying to be lightweight, so no setup happens
 
 ### Config
-* visit
+* visit admin/config/development/fapidev
 * you can switch the whole thing off and on instantaneously in this form
   * or by setting the variable: `fapidev_dpm`
