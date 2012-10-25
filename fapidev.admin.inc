@@ -2,7 +2,9 @@
 /**
  * @file
  * Config form
- *
+ * @todo options matrix : what : form, formstate  when : before , after how : dpm, file, db ?
+ * BTW : should it print twice on submit ?
+ * @todo consider http://drupal.org/project/krumo http://drupal.org/project/search_krumo
  */
 
 function fapidev_config_form($form, &$form_state){

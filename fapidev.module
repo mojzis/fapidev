@@ -42,8 +42,8 @@ function fapidev_permission() {
 function fapidev_form_alter(&$form, &$form_state) {
   if (variable_get('fapidev_dpm', true)) {
     array_unshift($form['#submit'], 'fapidev_universal_submit');
-    //dpm($form, 'form');
-    //dpm($form_state, 'form_state');
+    dpm($form, 'form');
+    dpm($form_state, 'form_state');
 
     // += array();
   }
