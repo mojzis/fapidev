@@ -20,8 +20,9 @@ function fapidev_menu() {
     'title' => 'FAPIdev config',
     'page callback' => 'drupal_get_form',
     'access arguments' => array('access fapidev'),
-    'arguments' => array('fapidev_config_form'),
+    'page arguments' => array('fapidev_config_form'),
     'type' => MENU_NORMAL_ITEM,
+    'file' => 'fapidev.admin.inc'
   );
   return $items;
 }
