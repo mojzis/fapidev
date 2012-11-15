@@ -4,6 +4,9 @@
  *   allow for this to be done directly from the form (add a checkbox ?)
  * @todo : add another submit after the original, show changes in form, form_state
  * @todo : provide a drush command :)
+ * @todo : consider adding a validation hanlder, too
+ * @todo : more settings options (what to show), more info about what is shown
+ * @todo : consider comparing the vals ?
  */
 
 /**
@@ -38,12 +41,19 @@ function fapidev_permission() {
     ),
   );
 }
-
+/**
+ * hook_form_alter()
+ * does the important stuff - dpm form & formstate, inject our submit handler
+ */
 function fapidev_form_alter(&$form, &$form_state) {
-  if (variable_get('fapidev_dpm', true)) {
+  if (variable_get('fapidev_dpm', true) && _fapidev_check_form($form['#id'])) {
     array_unshift($form['#submit'], 'fapidev_universal_submit');
     dpm($form, 'form');
     dpm($form_state, 'form_state');
+    // TODO: put this into settings
+    if (isset($form_state['node'])) {
+      dpm($form_state['node'], "fstate['node']");
+    }
 
     // += array();
   }
@@ -90,5 +100,18 @@ function fapidev_universal_submit(&$form, &$form_state) {
   }
 }
 
-// add a settings menu & form
-// add a universal submit handler
+/**
+ * check if a form is supposed to be treated
+ * @todo: add a variable for this
+ */
+function _fapidev_check_form($formid) {
+  $formstoignore = array(
+    'nonsensesowedontgetzero',
+    'devel-execute-form',
+    );
+  $formOK = true;
+  if (array_search($formid, $formstoignore)) {
+    $formOK = false;
+  }
+  return $formOK;
+}
