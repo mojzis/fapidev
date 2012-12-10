@@ -1,12 +1,15 @@
 <?php
 /**
- * @todo : config add list of forms that shouldnt be treated (ie views settings)
+ * @todo
+ * -config add list of forms that shouldnt be treated (ie views settings)
  *   allow for this to be done directly from the form (add a checkbox ?)
- * @todo : add another submit after the original, show changes in form, form_state
- * @todo : provide a drush command :)
- * @todo : consider adding a validation hanlder, too
- * @todo : more settings options (what to show), more info about what is shown
- * @todo : consider comparing the vals ?
+ * - provide a drush command :)
+ * - provide some form info and stuff (form_ID_alter generator)
+ * - provide a link to ignore a form
+ * - consider adding a validation handler, too
+ * - move the info closer to the form somehow ?
+ * - more settings options (what to show), more info about what is shown
+ * - consider comparing the values ?
  */
 
 /**
@@ -46,9 +49,10 @@ function fapidev_permission() {
  * does the important stuff - dpm form & formstate, inject our submit handler
  */
 function fapidev_form_alter(&$form, &$form_state) {
-  if (variable_get('fapidev_dpm', true) && _fapidev_check_form($form['#id'])) {
+  $formid = $form['#id'];
+  if (variable_get('fapidev_dpm', true) && _fapidev_check_form($formid)) {
     array_unshift($form['#submit'], 'fapidev_universal_submit');
-    dpm($form, 'form');
+    dpm($form, $formid);
     dpm($form_state, 'form_state');
     // TODO: put this into settings
     if (isset($form_state['node'])) {
@@ -106,11 +110,11 @@ function fapidev_universal_submit(&$form, &$form_state) {
  */
 function _fapidev_check_form($formid) {
   $formstoignore = array(
-    'nonsensesowedontgetzero',
     'devel-execute-form',
+    'node-admin-content',
     );
   $formOK = true;
-  if (array_search($formid, $formstoignore)) {
+  if (in_array($formid, $formstoignore)) {
     $formOK = false;
   }
   return $formOK;
