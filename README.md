@@ -14,4 +14,9 @@
 * Visit admin/config/development/fapidev .
   * switch it on and off without disabling the module
 * You can do that by setting the variable: `fapidev_dpm`
-  * drush vset fapidev_dpm 1
+  * `drush vset fapidev_dpm 1`
+
+
+## Plans
+* show form source code (see also holmes)
+* find out about all hooks involved
